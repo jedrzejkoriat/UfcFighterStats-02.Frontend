@@ -11,7 +11,8 @@ function FighterList({ fighters, onSelect }: Props) {
       {fighters.map((fighter, index) => (
         <li className="list-group-item" key={index}>
           <button className="btn btn-link" onClick={() => onSelect(fighter)}>
-            <strong>{fighter.ranking}.</strong> {fighter.name}
+            <strong>{fighter.ranking === 0 ? "C" : fighter.ranking}.</strong>{" "}
+            {fighter.name}
           </button>
         </li>
       ))}
