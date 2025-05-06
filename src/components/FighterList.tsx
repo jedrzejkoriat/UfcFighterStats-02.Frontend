@@ -1,12 +1,21 @@
-function FighterList() {
+import FighterModel from "../types/FighterModel";
+
+type Props = {
+  fighters: FighterModel[];
+  onSelect: (fighter: FighterModel) => void;
+};
+
+function FighterList({ fighters, onSelect }: Props) {
   return (
-    <>
-      <ul className="list-group">
-        <li className="list-group-item">1. Jose Aldo</li>
-        <li className="list-group-item">2. Conor Mcgregor</li>
-        <li className="list-group-item">3. Alex Pereira</li>
-      </ul>
-    </>
+    <ul className="list-group">
+      {fighters.map((fighter, index) => (
+        <li className="list-group-item" key={index}>
+          <button className="btn btn-link" onClick={() => onSelect(fighter)}>
+            <strong>{fighter.ranking}.</strong> {fighter.name}
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }
 
