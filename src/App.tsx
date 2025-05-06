@@ -2,21 +2,20 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import WeightClassAccordion from "./components/WeightClassAccordion";
 import WeightClassModel from "./types/WeightClassModel";
+import FighterModel from "./types/FighterModel";
 
 function App() {
   const [data, setData] = useState<WeightClassModel[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedFighter, setSelectedFighter] = useState<FighterModel>();
 
   useEffect(() => {
     fetch("/api/")
       .then((res) => res.json())
       .then((json: WeightClassModel[]) => {
         setData(json);
-        setLoading(false);
       })
       .catch((err) => {
         console.error("Error while fetching data:", err);
-        setLoading(false);
       });
   }, []);
 
@@ -25,7 +24,7 @@ function App() {
       <p className="mainHeader">UFC FIGHTER STATISTICS</p>
       <div className="row">
         <div className="col-md-3">
-          <WeightClassAccordion data={data} />
+          <WeightClassAccordion data={data} onSelect={setSelectedFighter} />
         </div>
         <div className="col-md-4"></div>
         <div className="col-md-5"></div>
