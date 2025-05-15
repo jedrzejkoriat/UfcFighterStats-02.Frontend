@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components"
+    "\\src\\components",
+    "\\src\\components\\Items"
   ],
-  "SelectedNode": "\\src\\components\\FighterStats.tsx",
+  "SelectedNode": "\\src\\components\\Items\\CountyFlag.tsx",
   "PreviewInSolutionExplorer": false
 }
