@@ -47,97 +47,92 @@ function FighterStats() {
                 <span className="visually-hidden">Loading...</span>
             </div>) :
             (<>
-                <div>
-                    <div className="btn-group me-2" role="group" aria-label="Weight classes">
-                        {weightClasses.map((weightClass, index) => (
-                            <button key={index} type="button" onClick={() => { setSelectedWeightClass(weightClass); setFighters(weightClass.fighters) }}
-                                className={`btn btn-primary${selectedWeightClass?.weightClass === weightClass.weightClass ? ' active' : ''}`}>{weightClass.weightClass}</button>
-                        ))}
+                <>
+                    <div className="row container text-center">
+                        <div className="btn-group me-2" role="group" aria-label="Weight classes">
+                            {weightClasses.map((weightClass, index) => (
+                                <button key={index} type="button" onClick={() => { setSelectedWeightClass(weightClass); setFighters(weightClass.fighters) }}
+                                    className={`btn btn-danger${selectedWeightClass?.weightClass === weightClass.weightClass ? ' active' : ''}`}>{weightClass.weightClass}</button>
+                            ))}
+                        </div>
                     </div>
-                    <div className="btn-group-vertical" role="group" aria-label="Fighters">
-                        {fighters.map((fighter, index) => (
-                            <button key={index} type="button" onClick={() => { setSelectedFighter(fighter) }}
-                                className={`btn btn-primary${selectedFighter?.name === fighter.name ? ' active' : ''}`}>{fighter.ranking}. {fighter.name}</button>
-                        ))}
-                    </div>
-                    <div className="container">
-                        {selectedFighter && (
-                            <div className="card">
-                                <div className="card-header">
-                                    <h3>{selectedFighter.name} <small className="text-muted">"{selectedFighter.nickname}"</small></h3>
+                    <div className="row container text-center">
+                        <div className="btn-group-vertical col-md-2" role="group" aria-label="Fighters">
+                            {fighters.map((fighter, index) => (
+                                <button key={index} type="button" onClick={() => { setSelectedFighter(fighter) }}
+                                    className={`btn btn-dark${selectedFighter?.name === fighter.name ? ' active' : ''}`}>{fighter.ranking}. {fighter.name}</button>
+                            ))}
+                        </div>
+                        <div className="container col-md-6">
+                            {selectedFighter && (
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h3>{selectedFighter.name} <small className="text-muted">"{selectedFighter.nickname}"</small></h3>
+                                    </div>
+                                    <div className="card-body">
+                                        <p><strong>Age:</strong> {selectedFighter.age}</p>
+                                        <p><strong>Country:</strong> {selectedFighter.country}</p>
+                                        <p><strong>Height:</strong> {selectedFighter.height} cm</p>
+
+                                        <h5 className="mt-4">Record</h5>
+                                        <p><strong>Total Wins:</strong> {selectedFighter.wins}
+                                            {" "}(<strong>KO:</strong> {selectedFighter.winKo},
+                                            {" "}<strong>Sub:</strong> {selectedFighter.winSub},
+                                            {" "}<strong>Dec:</strong> {selectedFighter.winDec},
+                                            {" "}<strong>Other:</strong> {selectedFighter.winOth})</p>
+
+                                        <p><strong>Total Losses:</strong> {selectedFighter.losses}
+                                            {" "}(<strong>KO:</strong> {selectedFighter.lossesKo},
+                                            {" "}<strong>Sub:</strong> {selectedFighter.lossesSub},
+                                            {" "}<strong>Dec:</strong> {selectedFighter.lossesDec},
+                                            {" "}<strong>Other:</strong> {selectedFighter.lossesOth})</p>
+
+                                        <p><strong>No Contest:</strong> {selectedFighter.noContest}</p>
+                                    </div>
                                 </div>
-                                <div className="card-body">
-                                    <p><strong>Age:</strong> {selectedFighter.age}</p>
-                                    <p><strong>Country:</strong> {selectedFighter.country}</p>
-                                    <p><strong>Height:</strong> {selectedFighter.height} cm</p>
-
-                                    <h5 className="mt-4">Record</h5>
-                                    <p><strong>Total Wins:</strong> {selectedFighter.wins}
-                                        {" "}(<strong>KO:</strong> {selectedFighter.winKo},
-                                        {" "}<strong>Sub:</strong> {selectedFighter.winSub},
-                                        {" "}<strong>Dec:</strong> {selectedFighter.winDec},
-                                        {" "}<strong>Other:</strong> {selectedFighter.winOth})</p>
-
-                                    <p><strong>Total Losses:</strong> {selectedFighter.losses}
-                                        {" "}(<strong>KO:</strong> {selectedFighter.lossesKo},
-                                        {" "}<strong>Sub:</strong> {selectedFighter.lossesSub},
-                                        {" "}<strong>Dec:</strong> {selectedFighter.lossesDec},
-                                        {" "}<strong>Other:</strong> {selectedFighter.lossesOth})</p>
-
-                                    <p><strong>No Contest:</strong> {selectedFighter.noContest}</p>
-                                </div>
+                            )}
+                            <div className="container overflow-auto" style={{ maxHeight: '380px', maxWidth: '640px' }}>
+                                {selectedFighter && (
+                                    selectedFighter.youtubeVideos.map((video, index) => (
+                                        <div key={index} className="ratio ratio-16x9 my-4" style={{ height: '300px', width: '580px' }}>
+                                            <iframe
+                                                src={convertYouTubeUrlToEmbed(video)}
+                                                title="Youtube video"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen></iframe>
+                                        </div>
+                                    ))
+                                )}
                             </div>
-                        )}
-                    </div>
-                    <div className="container overflow-auto" style={{ maxHeight: '310px', maxWidth: '540px' }}>
-                        {selectedFighter && (
-                            selectedFighter.youtubeVideos.map((video, index) => (
-                                <div key={index} className="ratio ratio-16x9 my-4" style={{ height: '300px', width: '500px' }}>
-                                    <iframe
-                                        src={convertYouTubeUrlToEmbed(video)}
-                                        title="Youtube video"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen></iframe>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                    <div className="container overflow-auto" style={{ maxHeight: '310px', maxWidth: '540px' }}>
-                        {selectedFighter && (
-                            selectedFighter.fightHistory.map((fight, index) => (
-                                <div key={index} className="container text-dark mb-5">
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            {fight.result}
-                                        </div>
-                                        <div className="col-md-8">
-                                            {fight.opponent}
+                        </div>
+                        <div className="container overflow-auto col-md-4" style={{ maxHeight: '800px', maxWidth: '540px' }}>
+                            {selectedFighter && (
+                                selectedFighter.fightHistory.map((fight, index) => (
+                                    <div key={index} className="card" style={{width: '100%'} }>
+                                        <div className="card-body">
+                                            <div className="row">
+                                                <h5 className="card-title text-start">
+                                                    <span className={`text-uppercase badge rounded-pill ${fight.result === 'win' ? 'bg-success' :
+                                                        fight.result === 'loss' ? 'bg-danger' :
+                                                            fight.result === 'draw' ? 'bg-warning text-dark' :
+                                                                'bg-secondary'
+                                                        }`}>
+                                                        {fight.result}
+                                                    </span> {fight.method}</h5>
+                                            </div>
+                                            <div className="row">
+                                                <h6 className="card-subtitle mb-2 text-start col-md-6">{fight.opponent}</h6>
+                                                <h6 className="card-subtitle mb-2 text-end col-md-6">R{fight.round}({fight.time})</h6>
+                                            </div>
+                                            <p className="card-text text-start">{fight.eventName}</p>
+                                            <p className="card-text text-end">{fight.date}</p>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            {fight.method}
-                                        </div>
-                                        <div className="col-md-4">
-                                            {fight.round}
-                                        </div>
-                                        <div className="col-md-4">
-                                            {fight.time}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-8">
-                                            {fight.eventName}
-                                        </div>
-                                        <div className="col-md-4">
-                                            {fight.date}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
+                                ))
+                            )}
+                        </div>
                     </div>
-                </div>
+                </>
             </>)}
     </>)
 }
