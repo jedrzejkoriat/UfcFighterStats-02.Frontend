@@ -53,7 +53,7 @@ import Croatia from "../assets/flags/Croatia.png";
 import Cuba from "../assets/flags/Cuba.png";
 import Curaçao from "../assets/flags/Curaçao.png";
 import Cyprus from "../assets/flags/Cyprus.png";
-import Czechia from "../assets/flags/Czechia.png";
+import Czech_Republic from "../assets/flags/Czech Republic.png";
 import Côte_d_Ivoire from "../assets/flags/Côte d'Ivoire.png";
 import Denmark from "../assets/flags/Denmark.png";
 import Djibouti from "../assets/flags/Djibouti.png";
@@ -308,7 +308,7 @@ const flagsMap: Record<string, string> = {
   "Cuba": Cuba,
   "Curaçao": Curaçao,
   "Cyprus": Cyprus,
-  "Czechia": Czechia,
+  "Czech Republic": Czech_Republic,
   "Côte d'Ivoire": Côte_d_Ivoire,
   "Denmark": Denmark,
   "Djibouti": Djibouti,
