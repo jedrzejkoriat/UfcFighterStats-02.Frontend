@@ -70,9 +70,11 @@ function FighterStats() {
                                             <h3 className="text-start"><small className="text-muted">{selectedFighter.nickname || '-'}</small></h3>
                                         </div>
                                         <div className="card-body">
-                                            <p><strong>Age:</strong> {selectedFighter.age}</p>
-                                            <p><strong>Country:</strong> {selectedFighter.country}</p>
+                                            <p><strong>Age:</strong> {selectedFighter.age} | {selectedFighter.birthdate}</p>
+                                            <p><strong>Country:</strong> {selectedFighter.country} | {selectedFighter.region}</p>
+                                            <p><strong>Association:</strong> {selectedFighter.association}</p>
                                             <p><strong>Height:</strong> {selectedFighter.height} cm</p>
+                                            <p><strong>Weight:</strong> {selectedFighter.weight} kg</p>
 
                                             <h5 className="mt-4">Record</h5>    
                                             <p><strong>Total Wins:</strong> {selectedFighter.wins}
