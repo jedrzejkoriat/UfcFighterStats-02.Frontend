@@ -17,9 +17,9 @@ const Flag: React.FC<FlagProps> = ({ country }) => {
       src={flagSrc}
       alt={`Flaga ${country}`}
       style={{
-        border: '1px solid black',  // czarna cienka linia
-        borderRadius: '2px',         // opcjonalnie lekko zaokrąglone rogi, jeśli chcesz
-        maxWidth: '100%',            // żeby obrazek nie wychodził poza kontener
+        border: '1px solid black',
+        borderRadius: '2px', 
+        maxWidth: '100%',
         height: 'auto',
       }}
     />

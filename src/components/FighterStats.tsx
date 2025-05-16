@@ -45,7 +45,7 @@ function FighterStats() {
             (<>
                 <>
                     <div className="row text-center">
-                        <div className="btn-group me-2" role="group" aria-label="Weight classes">
+                        <div className="btn-group  d-flex flex-wrap flex-md-row flex-column" role="group" aria-label="Weight classes">
                             {weightClasses.map((weightClass, index) => (
                                 <button key={index} type="button" onClick={() => { setSelectedWeightClass(weightClass); setFighters(weightClass.fighters) }}
                                     className={`btn btn-danger${selectedWeightClass?.weightClass === weightClass.weightClass ? ' active' : ''}`}>{weightClass.weightClass}</button>
@@ -72,7 +72,7 @@ function FighterStats() {
                                                     <Flag country={selectedFighter.country} />
                                                 </div>
                                             </div>
-                                                    <h3 className="text-start"><small className="text-muted">{selectedFighter.nickname || '-'}</small></h3>
+                                            <h3 className="text-start"><small className="text-muted">{selectedFighter.nickname || '-'}</small></h3>
                                         </div>
                                         <div className="card-body">
                                             <p><strong>Age:</strong> {selectedFighter.age} | {selectedFighter.birthdate}</p>
