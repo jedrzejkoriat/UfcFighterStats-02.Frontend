@@ -1,6 +1,8 @@
 import FighterModel from "../types/FighterModel";
 import WeightClassModel from "../types/WeightClassModel";
 import { useEffect, useState } from "react";
+import { youtubeConverter } from "../utils/youtubeConverter";
+import Flag from "./Items/Flag";
 
 function FighterStats() {
 
@@ -11,13 +13,9 @@ function FighterStats() {
     const [isLoading, setLoading] = useState<boolean>(true);
 
 
+
     const [fighters, setFighters] = useState<FighterModel[]>([]);
     const [selectedFighter, setSelectedFighter] = useState<FighterModel | null>(null);
-
-    function convertYouTubeUrlToEmbed(url: string): string {
-        const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
-        return match ? `https://www.youtube.com/embed/${match[1]}` : url;
-    }
 
     useEffect(() => {
         const fetchFighters = async () => {
@@ -66,8 +64,15 @@ function FighterStats() {
                                 {selectedFighter && (
                                     <div className="card mb-2">
                                         <div className="card-header">
-                                            <h3 className="text-start">{selectedFighter.name}</h3>
-                                            <h3 className="text-start"><small className="text-muted">{selectedFighter.nickname || '-'}</small></h3>
+                                            <div className="row">
+                                                <div className="col-md-8">
+                                                    <h3 className="text-start">{selectedFighter.name}</h3>
+                                                </div>
+                                                <div className="col-md-4 text-end">
+                                                    <Flag country={selectedFighter.country} />
+                                                </div>
+                                            </div>
+                                                    <h3 className="text-start"><small className="text-muted">{selectedFighter.nickname || '-'}</small></h3>
                                         </div>
                                         <div className="card-body">
                                             <p><strong>Age:</strong> {selectedFighter.age} | {selectedFighter.birthdate}</p>
@@ -99,7 +104,7 @@ function FighterStats() {
                                             <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
                                                 <div className="ratio ratio-16x9">
                                                     <iframe
-                                                        src={convertYouTubeUrlToEmbed(video)}
+                                                        src={youtubeConverter(video)}
                                                         title={`Youtube video ${index + 1}`}
                                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                         allowFullScreen
