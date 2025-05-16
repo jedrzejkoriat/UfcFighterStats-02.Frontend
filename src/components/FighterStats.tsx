@@ -1,7 +1,6 @@
 import FighterModel from "../types/FighterModel";
 import WeightClassModel from "../types/WeightClassModel";
 import { useEffect, useState } from "react";
-import CountryFlag from "./Items/CountyFlag";
 
 function FighterStats() {
 

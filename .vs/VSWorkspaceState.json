@@ -2,9 +2,7 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\components",
     "\\src\\components\\Items"
   ],
-  "SelectedNode": "\\src\\components\\Items\\CountyFlag.tsx",
   "PreviewInSolutionExplorer": false
 }
