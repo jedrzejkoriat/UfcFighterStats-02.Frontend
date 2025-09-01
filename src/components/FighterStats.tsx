@@ -5,17 +5,13 @@ import { youtubeConverter } from "../utils/youtubeConverter";
 import Flag from "./Items/Flag";
 
 function FighterStats() {
-
-
     const [weightClasses, setWeightClasses] = useState<WeightClassModel[]>([]);
     const [selectedWeightClass, setSelectedWeightClass] = useState<WeightClassModel | null>(null);
 
-    const [isLoading, setLoading] = useState<boolean>(true);
-
-
-
     const [fighters, setFighters] = useState<FighterModel[]>([]);
     const [selectedFighter, setSelectedFighter] = useState<FighterModel | null>(null);
+
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchFighters = async () => {
@@ -35,34 +31,78 @@ function FighterStats() {
         fetchFighters();
     }, []);
 
-
-
-    return (<>
-        {isLoading ?
-            (<div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
-                <span className="visually-hidden">Loading...</span>
-            </div>) :
-            (<>
+    return (
+        <>
+            {isLoading ? (
+                <div className="spinner-border" style={{ width: "3rem", height: "3rem" }} role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            ) : (
                 <>
-                    <div className="row text-center">
-                        <div className="btn-group  d-flex flex-wrap flex-md-row flex-column" role="group" aria-label="Weight classes">
-                            {weightClasses.map((weightClass, index) => (
-                                <button key={index} type="button" onClick={() => { setSelectedWeightClass(weightClass); setFighters(weightClass.fighters) }}
-                                    className={`btn btn-danger${selectedWeightClass?.weightClass === weightClass.weightClass ? ' active' : ''}`}>{weightClass.weightClass}</button>
-                            ))}
+                    {/* Weight class dropdown */}
+                    <div className="row" style={{ paddingTop: '2rem' }}>
+                        <div className="dropdown mb-3 col-6">
+                            <button
+                                className="btn btn-dark dropdown-toggle w-100"
+                                type="button"
+                                id="dropdownWeightClass"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                            >
+                                {selectedWeightClass ? selectedWeightClass.weightClass : "Weight Class"}
+                            </button>
+                            <ul className="dropdown-menu dropdown-menu-dark w-100" aria-labelledby="dropdownWeightClass">
+                                {weightClasses.map((weightClass, index) => (
+                                    <li key={index}>
+                                        <button
+                                            className="dropdown-item"
+                                            onClick={() => {
+                                                setSelectedWeightClass(weightClass);
+                                                setFighters(weightClass.fighters);
+                                                setSelectedFighter(null);
+                                            }}
+                                        >
+                                            {weightClass.weightClass}
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
+
+                        {/* Fighters dropdown */}
+                        {fighters.length > 0 && (
+                            <div className="dropdown mb-3 col-6">
+                                <button
+                                    className="btn btn-dark dropdown-toggle w-100"
+                                    type="button"
+                                    id="dropdownFighters"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    {selectedFighter ? selectedFighter.name : "Fighter"}
+                                </button>
+                                <ul className="dropdown-menu dropdown-menu-dark w-100" aria-labelledby="dropdownFighters">
+                                    {fighters.map((fighter, index) => (
+                                        <li key={index}>
+                                            <button
+                                                className={`dropdown-item${selectedFighter?.name === fighter.name ? ' active' : ''}`}
+                                                onClick={() => setSelectedFighter(fighter)}
+                                            >
+                                                {fighter.ranking}. {fighter.name}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
-                    <div className="row text-center" style={{ paddingTop: '20px' }}>
-                        <div className="btn-group-vertical col-md-3" role="group" aria-label="Fighters">
-                            {fighters.map((fighter, index) => (
-                                <button key={index} type="button" onClick={() => { setSelectedFighter(fighter) }}
-                                    className={`btn btn-dark${selectedFighter?.name === fighter.name ? ' active' : ''}`}>{fighter.ranking}. {fighter.name}</button>
-                            ))}
-                        </div>
-                        <div className="row col-md-9">
-                            <div className="container col-md-5">
-                                {selectedFighter && (
-                                    <div className="card mb-2">
+
+                    {/* Fighter details + carousel + fight history */}
+                    <div className="row g-3">
+                        {selectedFighter && (
+                            <div className="col-4">
+                                <div className="col-12">
+                                    <div className="card card-dark mb-2">
                                         <div className="card-header">
                                             <div className="row">
                                                 <div className="col-md-8">
@@ -72,7 +112,9 @@ function FighterStats() {
                                                     <Flag country={selectedFighter.country} />
                                                 </div>
                                             </div>
-                                            <h3 className="text-start"><small className="text-muted">{selectedFighter.nickname || '-'}</small></h3>
+                                            <h3 className="text-start">
+                                                <small className="text-secondary">{selectedFighter.nickname || '-'}</small>
+                                            </h3>
                                         </div>
                                         <div className="card-body">
                                             <p><strong>Age:</strong> {selectedFighter.age} | {selectedFighter.birthdate}</p>
@@ -81,69 +123,66 @@ function FighterStats() {
                                             <p><strong>Height:</strong> {selectedFighter.height} cm</p>
                                             <p><strong>Weight:</strong> {selectedFighter.weight} kg</p>
 
-                                            <h5 className="mt-4">Record</h5>    
-                                            <p><strong>Total Wins:</strong> {selectedFighter.wins}
-                                                {" "}(<strong>KO:</strong> {selectedFighter.winKo},
-                                                {" "}<strong>Sub:</strong> {selectedFighter.winSub},
-                                                {" "}<strong>Dec:</strong> {selectedFighter.winDec},
-                                                {" "}<strong>Other:</strong> {selectedFighter.winOth})</p>
-
-                                            <p><strong>Total Losses:</strong> {selectedFighter.losses}
-                                                {" "}(<strong>KO:</strong> {selectedFighter.lossesKo},
-                                                {" "}<strong>Sub:</strong> {selectedFighter.lossesSub},
-                                                {" "}<strong>Dec:</strong> {selectedFighter.lossesDec},
-                                                {" "}<strong>Other:</strong> {selectedFighter.lossesOth})</p>
-
+                                            <h5 className="mt-4">Record</h5>
+                                            <p>
+                                                <strong>Total Wins:</strong> {selectedFighter.wins} (
+                                                <strong>KO:</strong> {selectedFighter.winKo},
+                                                <strong>Sub:</strong> {selectedFighter.winSub},
+                                                <strong>Dec:</strong> {selectedFighter.winDec},
+                                                <strong>Other:</strong> {selectedFighter.winOth})
+                                            </p>
+                                            <p>
+                                                <strong>Total Losses:</strong> {selectedFighter.losses} (
+                                                <strong>KO:</strong> {selectedFighter.lossesKo},
+                                                <strong>Sub:</strong> {selectedFighter.lossesSub},
+                                                <strong>Dec:</strong> {selectedFighter.lossesDec},
+                                                <strong>Other:</strong> {selectedFighter.lossesOth})
+                                            </p>
                                             <p><strong>No Contest:</strong> {selectedFighter.noContest}</p>
                                         </div>
                                     </div>
-                                )}
-                                <div id="fighterVideosCarousel" className="carousel slide">
-                                    <div className="carousel-inner">
-                                        {selectedFighter?.youtubeVideos.map((video, index) => (
-                                            <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
-                                                <div className="ratio ratio-16x9">
-                                                    <iframe
-                                                        src={youtubeConverter(video)}
-                                                        title={`Youtube video ${index + 1}`}
-                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                                        allowFullScreen
-                                                    ></iframe>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    {selectedFighter && selectedFighter.youtubeVideos.length > 0 && (
-                                        <>
-                                            <button
-                                                className="carousel-control-prev"
-                                                type="button"
-                                                data-bs-target="#fighterVideosCarousel"
-                                                data-bs-slide="prev"
-                                                style={{width:'4%'} }
-                                            >
-                                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                <span className="visually-hidden">Previous</span>
-                                            </button>
+                                </div>
 
-                                            <button
-                                                className="carousel-control-next"
-                                                type="button"
-                                                data-bs-target="#fighterVideosCarousel"
-                                                data-bs-slide="next"
-                                                style={{ width: '4%' }}
-                                            >
-                                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                                <span className="visually-hidden">Next</span>
-                                            </button>
-                                        </>
+                                <div className="col-12">
+                                    {/* Youtube carousel */}
+                                    {selectedFighter && selectedFighter.youtubeVideos.length > 0 && (
+                                        <div className="col-12">
+                                            <div id="fighterVideosCarousel" className="carousel slide">
+                                                <div className="carousel-inner">
+                                                    {selectedFighter.youtubeVideos.map((video, index) => (
+                                                        <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                                                            <div className="ratio ratio-16x9">
+                                                                <iframe
+                                                                    src={youtubeConverter(video)}
+                                                                    title={`Youtube video ${index + 1}`}
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                    allowFullScreen
+                                                                ></iframe>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <button className="carousel-control-prev" type="button" data-bs-target="#fighterVideosCarousel" data-bs-slide="prev" style={{ width: '4%' }}>
+                                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span className="visually-hidden">Previous</span>
+                                                </button>
+                                                <button className="carousel-control-next" type="button" data-bs-target="#fighterVideosCarousel" data-bs-slide="next" style={{ width: '4%' }}>
+                                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span className="visually-hidden">Next</span>
+                                                </button>
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
                             </div>
-                            <div className="container overflow-auto col-md-7" style={{ maxHeight: '800px', maxWidth: '540px'}}>
-                                {selectedFighter && (
-                                    selectedFighter.fightHistory.map((fight, index) => (
-                                        <div key={index} className="card mb-2" style={{ width: '100%' }}>
+                        )}
+                        <div className="col-8">
+
+                            {/* Fight history */}
+                            {selectedFighter && (
+                                <div className="col-12 scroll-dark" style={{ maxHeight: '763px', width: '100%' }}>
+                                    {selectedFighter.fightHistory.map((fight, index) => (
+                                        <div key={index} className="card card-dark mb-2">
                                             <div className="card-body">
                                                 <div className="row">
                                                     <h5 className="card-title text-start">
@@ -153,7 +192,8 @@ function FighterStats() {
                                                                     'bg-secondary'
                                                             }`}>
                                                             {fight.result}
-                                                        </span> {fight.method}</h5>
+                                                        </span> {fight.method}
+                                                    </h5>
                                                 </div>
                                                 <div className="row">
                                                     <h6 className="card-subtitle text-start col-md-6">{fight.opponent}</h6>
@@ -165,15 +205,15 @@ function FighterStats() {
                                                 </div>
                                             </div>
                                         </div>
-                                    ))
-                                )}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
-
                     </div>
                 </>
-            </>)}
-    </>)
+            )}
+        </>
+    );
 }
 
 export default FighterStats;
