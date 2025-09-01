@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://ufcstatsapi.pl',
+        target: 'https://localhost:7048',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
